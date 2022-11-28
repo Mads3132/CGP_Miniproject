@@ -1,12 +1,12 @@
 # CGP_Miniproject
  Mini-project repo for CGP
-========================================================================================================================================================================= 
+===================================================================================
 Why:
 I'd like to make a "Billboard shader" for my CGP mini project. Based upon the wikibooks tutorial https://en.wikibooks.org/wiki/Cg_Programming/Unity/Billboards I came to the conclusion that the main advantages is that a shader solution will always work with multiple cameras, as well as work in the Unity scene editor while doing level designing etc. so that the billboard will point towards the "camera".
 
 Alternatively to a shader solution I guess you could have a script applied to a gameobject and make that gameobject constantly face the camera.
 
-=========================================================================================================================================================================
+===================================================================================
 Shader set-up:
 Started from unlit shader
 
@@ -18,19 +18,19 @@ Everything related to a billboard shader is essentially determined in the vertex
 
 According to documentation this line is equivalent to mul(UNITY_MATRIX_MVP, v.vertex) which means that if I multiply the vertex with the unity matrix I essentially get the same result as the previous function. 
 
-=========================================================================================================================================================================
+===================================================================================
 Orientation:
 The calculation will be split into three parts. The Model Matrix, The View Matrix and The Perspective Matrix. I don’t want the orientation to change as a function of the camera, I want the orientation to always be the same regardless of how the camera is looking at the object.
 
-=========================================================================================================================================================================
+===================================================================================
 Degrading:
 A degraded version of the view matrix is used, as instead of having it apply a full matrix in which I would apply rotation and scale I’ll just be applying a translation. That translation will be the world_pos subtracted from the world_origin such that I end up with a position that is actually centered at 0,0,0. The view origin is then added on so that it is centered where it should be, but rotation won’t be applied at all.
 
-=========================================================================================================================================================================
+===================================================================================
 Adapter Layer:
 Due to the shader convention I chose (as it was easier to wrap my head around), everything is seen from behind. To fix this I’ve created an adapter layer which flips two of the coordinates, namely the x-axis and the z-axis effectively rotating it 180 degrees. world_origin is subtracted and then added to fix wonky behavior as origin of geometry also was flipped.
 
-=========================================================================================================================================================================
+===================================================================================
 Extra note:
 Scaling can be a bit finicky and in a lot of cases a billboard shader should actually be scaled differently compared to other objects in a scene. I have chosen not to implement this as it doesn’t really matter for this demonstration.
 
